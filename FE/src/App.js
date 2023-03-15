@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './App.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -6,7 +6,7 @@ import Parser from 'html-react-parser';
 import Axios from 'axios';
 
 function App() {
-  const [boardContent, SetboardContent]  = useState({
+  const [boardContent, setboardContent]  = useState({
     title: '',
     content: ''
   })
@@ -21,9 +21,9 @@ function App() {
   },[viewContent])
 
   const submitReview = ()=>{
-    Axios.post('/api/insert', {
-      title: movieContent.title,
-      content: movieContent.title
+    Axios.post('http://localhost:3333/api/insert', {
+      title: boardContent.title,
+      content: boardContent.content
     }).then(()=>{
       alert('등록 완료!');
     })
@@ -31,11 +31,11 @@ function App() {
 
   const getValue = e => {
     const { name, value } = e.target;
-    SetboardContent({
+    setboardContent({
       ...boardContent,
       [name]: value  
     })
-      console.log(boardContent);
+    console.log(boardContent);
   }
   return (
     <div className="App">
@@ -65,7 +65,7 @@ function App() {
           onChange={(event, editor) => {
             const data = editor.getData();
             console.log({ event, editor, data });
-            SetboardContent({
+            setboardContent({
               ...boardContent,
               content: data
             })
