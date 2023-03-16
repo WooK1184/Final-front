@@ -14,12 +14,38 @@ const db = mysql.createPool({
     host: HOSTNAME,
     user: USERNAME,
     password: PASSWORD,
-    database: DATABASE
 });
+
+db.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query('CREATE DATABASE IF NOT EXISTS simpleboard', (err, result) => {
+      if (err) throw err;
+      console.log('Database created');
+      connection.query('USE simpleboard', (err, result) => {
+        if (err) throw err;
+        console.log('Database selected');
+  
+        // 테이블 생성
+        const sql = `CREATE TABLE IF NOT EXISTS simpleboard (
+                      idx INT NOT NULL AUTO_INCREMENT,
+                      title CHAR(100) NOT NULL,
+                      content TEXT NOT NULL,
+                      PRIMARY KEY(idX)
+                    )`;
+        connection.query(sql, (err, result) => {
+          if (err) throw err;
+          console.log('Table created');
+          connection.release(); // 연결 반환
+        });
+      });
+    });
+  });
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 
 app.get("/api/get", (req, res)=>{
     const sqlQuery = "SELECT * FROM simpleboard;";

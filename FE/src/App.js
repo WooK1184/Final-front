@@ -18,13 +18,14 @@ function App() {
     Axios.get('http://localhost:3333/api/get').then((response)=>{
       setViewContent(response.data);
     })
-  },[viewContent])
+  }, [setViewContent]);
 
   const submitReview = ()=>{
     Axios.post('http://localhost:3333/api/insert', {
       title: boardContent.title,
       content: boardContent.content
     }).then(()=>{
+      window.location.reload();
       alert('등록 완료!');
     })
   };
@@ -44,10 +45,11 @@ function App() {
       </div>
       <h1>게시판</h1>
       <div className='board-container'>
-        {viewContent.map(element =>
-          <div>
+        {viewContent && viewContent?.map(element =>
+          <div key={element.idx}>
             <h2>{element.title}</h2>
             <div>
+              {console.log(element)}
               {Parser(element.content)}
             </div>
           </div>
