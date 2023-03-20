@@ -32,7 +32,7 @@ resource "aws_subnet" "sv-private2" {
 
 resource "aws_subnet" "db-private1" {
     vpc_id = aws_vpc.vpc.id
-    cidr_block = "10.0.11.0/24"
+    cidr_block = "10.0.12.0/24"
     availability_zone = "ap-northeast-2a"
     map_public_ip_on_launch = false
     tags = {Name = "db-private1"}
@@ -40,7 +40,7 @@ resource "aws_subnet" "db-private1" {
 
 resource "aws_subnet" "db-private2" {
     vpc_id = aws_vpc.vpc.id
-    cidr_block = "10.0.21.0/24"
+    cidr_block = "10.0.22.0/24"
     availability_zone = "ap-northeast-2c"
     map_public_ip_on_launch = false
     tags = {Name = "db-private2"}
@@ -128,4 +128,17 @@ resource "aws_route_table_association" "teamf-db-private1" {
 resource "aws_route_table_association" "teamf-db-private2" { 
   subnet_id      = aws_subnet.db-private2.id
   route_table_id = aws_route_table.private4.id
+}
+
+#sv_subnetgroup
+resource "aws_db_subnet_group" "rds" {
+    name = "db_subnetgroup"
+    description = "use in RDS instance"
+    subnet_ids = [aws_subnet.db-private1.id, aws_subnet.db-private2.id]
+}
+
+#ecs_subnetgroup
+resource "aws_ecs_subnet_group" "ecs" {
+    name = "ecs_subnetgroup"
+    subnet_ids = [aws_subnet.sv-private1.id, aws_subnet.sv-private2.id]
 }
