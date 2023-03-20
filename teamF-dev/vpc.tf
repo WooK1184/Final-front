@@ -20,6 +20,11 @@ resource "aws_eip" "nat" {
     vpc = true
 }
 
+#BASTION EIP
+resource "aws_eip" "bastion" {
+    vpc = true
+}
+
 #NAT_GATEWAY
 resource "aws_nat_gateway" "nat" {
     allocation_id = aws_eip.nat.id

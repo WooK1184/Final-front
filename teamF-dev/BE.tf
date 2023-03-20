@@ -59,3 +59,51 @@ resource "aws_ecs_service" "teamf-svc" {
     ignore_changes = [desired_count]
   }
 }
+
+resource "aws_autoscaling_group" "teamf-asg" {
+  name                      = "teamf-asg"
+  min_size                  = 1
+  max_size                  = 3
+  desired_capacity          = 2
+  vpc_zone_identifier       = ["aws_subnet.sv-private1.id", "aws_subnet.sv-private2.id"]
+  health_check_type         = "ELB"
+  health_check_grace_period = 300
+  tags = [
+    {
+      key                 = "Environment"
+      value               = "production"
+      propagate_at_launch = true
+    }
+  ]
+}
+
+resource "aws_lb_target_group_attachment" "ecs-alb" {
+target_group_arn = aws_lb_target_group.web_lb_tg.arn
+target_id = aws_ecs_service.teamf-svc.id
+port = 3000
+}
+
+resource "aws_ecr_repository" "teamf-ecr" {
+  name = "teamf-ecr"
+
+  image_tag_mutability = "IMMUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  lifecycle {
+    ignore_changes = [image_tag_mutability]
+  }
+}
+
+resource "null_resource" "teamf-docker" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
+      cd "이미지 디렉토리 경로"
+      docker build -t ${aws_ecr_repository.teamf-ecr.repository_url}:latest .
+      docker push ${aws_ecr_repository.teamf-ecr.repository_url}:latest
+    EOT
+  }
+}
