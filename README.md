@@ -9,7 +9,7 @@
   
 ## 개발팀 소개
 |      김도형       |          박성욱         |       이혜정        |       진유록        |       최우람      |                                                                                            
-| :---------------------: | :---------------------: | :---------------------: | :---------------------: | :---------------------: |
+| :--------------------------: | :--------------------------: | :--------------------------: | :--------------------------: | :--------------------------: |
 | <image width="160px" src="https://user-images.githubusercontent.com/119159558/227075769-378c58ac-82ff-49c8-a20d-0a22120f539e.png"/> | <image width="160px" src="https://user-images.githubusercontent.com/119159558/227076242-6e802ef4-4f4e-48f0-8a8a-aa5f4ebdb8b8.png"/> | <image width="160px" src="https://user-images.githubusercontent.com/119159558/227076363-f2a67940-90c3-41de-abdf-4c2a0313212b.png"/> | <image width="160px" src="https://user-images.githubusercontent.com/119159558/227076449-e586846c-440d-4f42-88e4-c743ef2ec39e.png"/> | <image width="160px" src="https://user-images.githubusercontent.com/119159558/227076534-4f71a8d8-7bf8-485e-ae30-a941e640624c.png"/> |
 | [@kdh5983](https://github.com/kdh5983) | [@WooK1184](https://github.com/WooK1184) | [@leehyejeong23421](https://github.com/leehyejeong23421) | [@2undaunted](https://github.com/2undaunted) | [@wooov](https://github.com/wooov) |
 
